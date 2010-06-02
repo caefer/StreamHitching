@@ -18,20 +18,20 @@
  * @subpackage filter
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-class Stream_Source_Filter_Example extends Stream_Source_FilterAbstract
-  implements Stream_Source_FilterInterface
+class Stream_SourceFilter_Example extends Stream_SourceFilter_Abstract
+  implements Stream_SourceFilter_Interface
 {
   /**
-   * @var array $options Options set for the current Stream_Source_Filter implementation
+   * @var array $options Options set for the current Stream_SourceFilter implementation
    */
   protected $options = array(
-    'wrapper_class' => 'Stream_Wrapper_Local_ReadOnly_File',
+    'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Local',
     'protocol'      => 'example'
   );
 
   /**
    * Accessor to the current objects options array.
-   * @see Stream_Source_FilterInterface
+   * @see Stream_SourceFilter_Interface
    *
    * @param  string $url Real url to be encoded
    * @return string      Stream URL (custom://...)
@@ -43,7 +43,7 @@ class Stream_Source_Filter_Example extends Stream_Source_FilterAbstract
 
   /**
    * Accessor to the current objects options array.
-   * @see Stream_Source_FilterInterface
+   * @see Stream_SourceFilter_Interface
    *
    * @param  string $url Stream URL (custom://...) to be decoded
    * @return string      Real url

@@ -12,18 +12,18 @@
  */
 
 /**
- * Abstract class implementing the organisational parts of a Stream_Source_Filter.
- * Implements getOption() from Stream_Source_FilterInterface
+ * Abstract class implementing the organisational parts of a Stream_SourceFilter.
+ * Implements getOption() from Stream_SourceFilter_Interface
  * @abstract
  *
  * @package    StreamHitching
  * @subpackage filter
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-abstract class Stream_Source_FilterAbstract
+abstract class Stream_SourceFilter_Abstract
 {
   /**
-   * @var array $options Options set for the current Stream_Source_Filter implementation
+   * @var array $options Options set for the current Stream_SourceFilter implementation
    */
   protected $options = array();
 
@@ -49,9 +49,9 @@ abstract class Stream_Source_FilterAbstract
   }
 
   /**
-   * Sets Stream_Source_Filter on passed Stream_Wrapper_Filter_Decorator and registers stream wrapper.
+   * Sets Stream_SourceFilter on passed Stream_Wrapper_Decorator and registers stream wrapper.
    *
-   * @param  string $decoratorClassName Class name for the Stream_Wrapper_Filter_Decorator to use
+   * @param  string $decoratorClassName Class name for the Stream_Wrapper_Decorator to use
    * @return void
    */
   public function registerWith($decoratorClassName)
@@ -66,7 +66,7 @@ abstract class Stream_Source_FilterAbstract
 
   /**
    * Accessor to the current objects options array.
-   * @see Stream_Source_FilterInterface
+   * @see Stream_SourceFilter_Interface
    *
    * @param  string $name Name of the option
    * @return mixed        Value of the option in question

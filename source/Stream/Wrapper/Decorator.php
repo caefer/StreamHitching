@@ -12,24 +12,24 @@
  */
 
 /**
- * A Stream_Wrapper_Filter_Decorator can be registered as a stream.
+ * A Stream_Wrapper_Decorator can be registered as a stream.
  * It uses the decorator pattern to forward calls to the stream wrapper
  * interface to its $wrapper member filtering all paths using a
- * Stream_Source_Filter instance that was passed to registerWith().
+ * Stream_SourceFilter instance that was passed to registerWith().
  *
  * @package    StreamHitching
  * @subpackage decorator
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-class Stream_Wrapper_Filter_Decorator
+class Stream_Wrapper_Decorator
 {
   /**
-   * @var Stream_Wrapper_ReadOnly_FileInterface $wrapper
+   * @var Stream_Wrapper_ReadOnlyFile_Interface $wrapper
    */
   private $wrapper;
 
   /**
-   * @staticVar Stream_Source_FilterInterface $filter
+   * @staticVar Stream_SourceFilter_Interface $filter
    */
   private static $filter;
 
@@ -78,7 +78,7 @@ class Stream_Wrapper_Filter_Decorator
   /**
    *
    */
-  public static function registerWith(Stream_Source_FilterInterface $filter)
+  public static function registerWith(Stream_SourceFilter_Interface $filter)
   {
     self::$filter = $filter;
     stream_wrapper_register($filter->getOption('protocol'), __CLASS__);

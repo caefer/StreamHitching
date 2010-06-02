@@ -19,7 +19,7 @@
  * @subpackage decorator
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-class Stream_Wrapper_Filter_Decorator_Analyzer extends Stream_Wrapper_Filter_Decorator
+class Stream_Wrapper_Decorator_Analyzer extends Stream_Wrapper_Decorator
 {
   public function __call($method, $arguments)
   {
@@ -31,7 +31,7 @@ class Stream_Wrapper_Filter_Decorator_Analyzer extends Stream_Wrapper_Filter_Dec
     return parent::__call($method, $arguments);
   }
 
-  public static function registerWith(Stream_Source_FilterInterface $filter)
+  public static function registerWith(Stream_SourceFilter_Interface $filter)
   {
     parent::registerWith($filter);
     stream_wrapper_unregister($filter->getOption('protocol'));

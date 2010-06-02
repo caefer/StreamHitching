@@ -18,7 +18,7 @@
  * @subpackage wrapper
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-class Stream_Wrapper_Local_ReadOnly_File implements Stream_Wrapper_ReadOnly_FileInterface
+class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_Interface
 {
   public $context;
   private $resource;

@@ -12,13 +12,13 @@
  */
 
 /**
- * Interface for Stream_Source_Filter to be used in Stream_Wrapper_Filter_Decorator
+ * Interface for Stream_SourceFilter to be used in Stream_Wrapper_Decorator
  *
  * @package    StreamHitching
  * @subpackage filter
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-interface Stream_Source_FilterInterface
+interface Stream_SourceFilter_Interface
 {
   /**
    * Accessor to the current objects options array.

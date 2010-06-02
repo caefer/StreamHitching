@@ -18,7 +18,7 @@
  * @subpackage wrapper
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-interface Stream_Wrapper_ReadOnly_FileInterface
+interface Stream_Wrapper_ReadOnlyFile_Interface
 {
   //public $context;
 
