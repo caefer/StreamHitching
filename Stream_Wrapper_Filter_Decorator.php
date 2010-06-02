@@ -12,7 +12,10 @@
  */
 
 /**
- * Example  Stream_Source_Filter implementation
+ * A Stream_Wrapper_Filter_Decorator can be registered as a stream.
+ * It uses the decorator pattern to forward calls to the stream wrapper
+ * interface to its $wrapper member filtering all paths using a
+ * Stream_Source_Filter instance that was passed to registerWith().
  *
  * @package    StreamHitching
  * @subpackage decorator
