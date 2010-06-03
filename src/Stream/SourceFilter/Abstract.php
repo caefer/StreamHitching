@@ -49,22 +49,6 @@ abstract class Stream_SourceFilter_Abstract
   }
 
   /**
-   * Sets Stream_SourceFilter on passed Stream_Wrapper_Decorator and registers stream wrapper.
-   *
-   * @param  string $decoratorClassName Class name for the Stream_Wrapper_Decorator to use
-   * @return void
-   */
-  public function registerWith($decoratorClassName)
-  {
-    call_user_func(array($decoratorClassName, 'setSourceFilter'), $this);
-    if(in_array($this->options['protocol'], stream_get_wrappers()))
-    {
-      stream_wrapper_unregister($this->options['protocol']);
-    }
-    stream_wrapper_register($this->options['protocol'], $decoratorClassName);
-  }
-
-  /**
    * Accessor to the current objects options array.
    * @see Stream_SourceFilter_Interface
    *

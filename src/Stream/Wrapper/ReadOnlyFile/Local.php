@@ -29,7 +29,6 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
   }
   public function stream_close()
   {
-    var_dump($this->context);
     return fclose($this->resource);
   }
   public function stream_flush()

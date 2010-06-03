@@ -22,6 +22,19 @@ interface Stream_Wrapper_ReadOnlyFile_Interface
 {
   //public $context;
 
+/*
+  public void stream_close();
+  public bool stream_eof();
+  public bool stream_flush();
+  public bool stream_lock($operation);
+  public bool stream_open($path, $mode, $options, &$opened_path);
+  public string stream_read($count);
+  public bool stream_seek($offset, $whence);
+  public bool stream_set_option($option, $arg1, $arg2);
+  public array stream_stat();
+  public int stream_tell();
+*/
+
   /**
    *
    *
