@@ -20,25 +20,121 @@
  */
 class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_Interface
 {
+  /**
+   * resource context
+   *
+   * @var resource
+   */
   public $context;
-  private $resource;
+
+  /**
+   * resource handle
+   *
+   * @var resource
+   */
+  protected $resource;
+
+  /**
+   * Close an resource
+   *
+   * @return void
+   */
+  public function stream_close()
+  {
+    return fclose($this->resource);
+  }
+
+  /**
+   * Tests for end-of-file on a file pointer
+   *
+   * @return bool
+   */
+  public function stream_eof()
+  {
+    return feof($this->resource);
+  }
+
+  /**
+   * Flushes the output
+   *
+   * @return bool
+   */
+  public function stream_flush()
+  {
+    return fflush($this->resource);
+  }
+
+  /**
+   * Opens file or URL
+   *
+   * @param string $path
+   * @param string $mode
+   * @param int $options
+   * @param string &$opened_path
+   * @return bool
+   */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
     $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
     return false !== $this->resource;
   }
-  public function stream_close()
+
+  /**
+   * Read from stream
+   *
+   * @param int $count
+   * @return string
+   */
+  public function stream_read($count)
   {
-    return fclose($this->resource);
+    return fread($this->resource, $count);
   }
-  public function stream_flush()
+
+  /**
+   * Seeks to specific location in a stream
+   *
+   * @param int  $offset
+   * @param int  $whence
+   * @return bool
+   */
+  public function stream_seek($offset, $whence = SEEK_SET)
   {
-    return fflush($this->resource);
+    return 0 == fseek($this->resource, $offset, $whence);
   }
+
+  /** 
+   * Retrieve information about a file resource
+   * 
+   * @return array 
+   */ 
+  /**
+   * Read from stream
+   *
+   * @param int $count
+   * @return string
+   */
   public function stream_stat()
   {
     return fstat($this->resource);
   }
+
+  /** 
+   * Retrieve the current position of a stream
+   * 
+   * @return int 
+   */ 
+  public function stream_tell()
+  {
+    return ftell($this->resource);
+  }
+
+  /**
+   * Retrieve information about a file
+   *
+   * @param string $path
+   * @param int $flags
+   * @return array
+   */
   public function url_stat($path , $flags)
   {
     return stat($path);
