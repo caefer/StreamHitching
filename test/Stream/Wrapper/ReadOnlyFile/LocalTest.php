@@ -46,6 +46,11 @@ class Stream_Wrapper_ReadOnlyFile_Local_Test extends PHPUnit_Framework_TestCase
     $this->assertTrue($this->wrapper->stream_open(__FILE__, 'r'));
   }
 
+  public function testStream_openForWritingShouldFail()
+  {
+    $this->assertFalse($this->wrapper->stream_open(__FILE__, 'w'));
+  }
+
   public function testStream_read()
   {
     $this->wrapper->stream_open(__FILE__, 'r');
