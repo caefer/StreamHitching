@@ -75,6 +75,11 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
    */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
+    if('r' != $mode)
+    {
+      return false; // This is a read only file stream wrapper , remember?
+    }
+
     $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
     return false !== $this->resource;
   }
