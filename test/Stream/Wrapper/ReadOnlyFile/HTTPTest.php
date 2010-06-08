@@ -11,11 +11,11 @@
  * @version    SVN: $Id: $
  */
 
+/** require sources related to stream wrapper */
+require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Interface.php';
+require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Remote.php';
 /** PHPUnit Framework */
 require_once 'PHPUnit/Framework.php';
-/** class autoloading if necessary */
-require_once dirname(__FILE__).'/../../../bootstrap.php';
-
 
 /**
  * Stream wrapper for read only access of a local file.
@@ -24,34 +24,72 @@ require_once dirname(__FILE__).'/../../../bootstrap.php';
  * @subpackage wrapper
  * @author     Christian Schaefer <caefer@ical.ly>
  */
-class Stream_Wrapper_ReadOnlyFile_HTTP_Test extends Stream_Wrapper_ReadOnlyFile_Abstract_Test
+class Stream_Wrapper_ReadOnlyFile_HTTP_Test extends PHPUnit_Framework_TestCase
 {
-  protected $url = 'http://stat.ical.ly/10100bytes.php';
-  protected $basename = '10100bytes.php';
-  protected $dirname = 'moo://stat.ical.ly';
-  protected $pathinfo = array(
-    'dirname' => 'moo://stat.ical.ly',
-    'basename' => '10100bytes.php',
-    'extension' => 'php',
-    'filename' => '10100bytes'
-  );
-  protected $fake_url = "moo://does/not.exist";
+  public function testStream_close()
+  {
+    $this->wrapper->stream_close();
+  }
+
+  public function testStream_eof()
+  {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
+    $this->assertFalse($this->wrapper->stream_eof());
+  }
+
+  public function testStream_flush()
+  {
+    $this->assertFalse($this->wrapper->stream_flush());
+  }
+
+  public function testStream_open()
+  {
+    $this->assertTrue($this->wrapper->stream_open('http://www.google.com/', 'r'));
+  }
+
+  public function testStream_read()
+  {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
+    $chunk = $this->wrapper->stream_read(27);
+    $this->assertNotNull($chunk);
+    $this->assertEquals('<!doctype html><html><head>', $chunk);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+  }
+
+  public function testStream_seek()
+  {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
+    $this->assertTrue($this->wrapper->stream_seek(3, SEEK_SET));
+    $this->assertEquals(3, $this->wrapper->stream_tell());
+    $this->assertTrue($this->wrapper->stream_seek(2, SEEK_CUR));
+    $this->assertEquals(5, $this->wrapper->stream_tell());
+  }
+
+  public function testStream_stat()
+  {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
+    $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $this->wrapper->stream_stat());
+  }
+
+  public function testStream_tell()
+  {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
+    $this->wrapper->stream_seek(3, SEEK_SET);
+    $this->assertEquals(3, $this->wrapper->stream_tell());
+  }
+
+  public function testUrl_stat()
+  {
+    $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $this->wrapper->url_stat('http://www.google.com/'));
+  }
 
   protected function setUp()
   {
-    ini_set('display_errors',1);
-    error_reporting(E_ALL|E_STRICT);
-    if(in_array('moo', stream_get_wrappers()))
-    {
-      stream_wrapper_unregister('moo');
-    }
-    $sourceFilter = new Stream_SourceFilter_Mock(array(
-      'protocol' => 'moo',
-      'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Remote'
-    ));
-    Stream_Wrapper_Decorator::registerWith($sourceFilter);
-    #Stream_Wrapper_Decorator_Analyzer::registerWith($sourceFilter);
-    $this->url = $sourceFilter->encode($this->url);
+    $this->wrapper = new Stream_Wrapper_ReadOnlyFile_HTTP();
   }
 }
 
