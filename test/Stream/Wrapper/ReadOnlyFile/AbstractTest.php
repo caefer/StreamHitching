@@ -125,7 +125,6 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
   {
     $fh = fopen($this->url, 'r');
     $line = fread($fh, 10);
-    var_dump($line);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fread — Binary-safe file read');
     $this->assertEquals(10, strlen($line), 'fread — Binary-safe file read');
     fclose($fh);

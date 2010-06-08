@@ -51,14 +51,18 @@ class Stream_SourceFilter_Mock_Test extends PHPUnit_Framework_TestCase
   public function testDecode()
   {
     $url = $this->getFilter()->encode(__FILE__);
-    $this->assertEquals(__FILE__, $this->getFilter()->decode($url));
+    $this->assertEquals('file://'.__FILE__, $this->getFilter()->decode($url));
   }
 
   protected function getFilter()
   {
-    return new Stream_SourceFilter_Mock(array(
-      'protocol' => 'test',
-      'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Local'
-    ));
+    if(is_null($this->filter))
+    {
+      $this->filter = new Stream_SourceFilter_Mock(array(
+        'protocol' => 'test',
+        'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Local'
+      ));
+    }
+    return $this->filter;
   }
 }

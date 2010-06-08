@@ -49,8 +49,8 @@ class Stream_Wrapper_ReadOnlyFile_PHPMock_Test extends Stream_Wrapper_ReadOnlyFi
       'protocol' => 'moo',
       'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Mock'
     ));
-    #Stream_Wrapper_Decorator::registerWith($sourceFilter);
-    Stream_Wrapper_Decorator_Analyzer::registerWith($sourceFilter);
+    Stream_Wrapper_Decorator::registerWith($sourceFilter);
+    #Stream_Wrapper_Decorator_Analyzer::registerWith($sourceFilter);
     $this->url = dirname(__FILE__).'/../../../fixtures/10100bytes.txt';
     $this->dirname = 'moo://'.dirname($this->url);
     $this->pathinfo['dirname'] = $this->dirname;

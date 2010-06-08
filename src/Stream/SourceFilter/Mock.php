@@ -30,14 +30,11 @@ class Stream_SourceFilter_Mock extends Stream_SourceFilter_Abstract
    */
   public function encode($url)
   {
+    $this->options['orig_protocol'] = 'file';
     if(preg_match('#^([^:]*)://#', $url, $matches))
     {
       $this->options['orig_protocol'] = $matches[1];
       return str_replace($this->options['orig_protocol'].'://', $this->options['protocol'].'://', $url);
-    }
-    else
-    {
-      $this->options['orig_protocol'] = 'file';
     }
     return $this->options['protocol'].'://'.$url;
   }
