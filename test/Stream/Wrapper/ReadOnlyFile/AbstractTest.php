@@ -94,7 +94,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
     $fh = fopen($this->url, 'r');
     $line = fgetss($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fgetss — Gets line from file pointer and strip HTML tags');
-    $this->assertEquals('001 : 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'.PHP_EOL, $line, 'fgetss — Gets line from file pointer and strip HTML tags');
+    $this->assertEquals('001 : 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', trim($line), 'fgetss — Gets line from file pointer and strip HTML tags');
     fclose($fh);
   }
 
