@@ -33,6 +33,7 @@ class Stream_Wrapper_ReadOnlyFile_Remote_Test extends PHPUnit_Framework_TestCase
 
   public function testStream_eof()
   {
+    $this->wrapper->stream_open('http://www.google.com/', 'r');
     $this->assertFalse($this->wrapper->stream_eof());
   }
 
@@ -49,7 +50,14 @@ class Stream_Wrapper_ReadOnlyFile_Remote_Test extends PHPUnit_Framework_TestCase
   public function testStream_read()
   {
     $this->wrapper->stream_open('http://www.google.com/', 'r');
-    $this->assertContains('google', $this->wrapper->stream_read(8192));
+    $chunk = $this->wrapper->stream_read(27);
+    $this->assertNotNull($chunk);
+    $this->assertEquals('<!doctype html><html><head>', $chunk);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
+    $chunk = $this->wrapper->stream_read(27);
   }
 
   public function testStream_seek()

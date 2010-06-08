@@ -35,6 +35,20 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
   protected $resource;
 
   /**
+   * file size of remote resource
+   *
+   * @var int
+   */
+  protected $filesize = 0;
+
+  /**
+   * file pointer position of remote resource
+   *
+   * @var int
+   */
+  protected $position = 1; // set to 1 initially so eof is not true
+
+  /**
    * Close an resource
    *
    * @return void
@@ -51,7 +65,7 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */
   public function stream_eof()
   {
-    return feof($this->resource);
+    return $this->position >= $this->filesize;
   }
 
   /**
@@ -76,6 +90,8 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
   public function stream_open($path, $mode, $options, &$opened_path)
   {
     $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
+    #$headers = get_headers($path, 1);
+    #$this->filesize = $headers['Content-Length'];
     return false !== $this->resource;
   }
 
@@ -87,7 +103,9 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */
   public function stream_read($count)
   {
-    return fread($this->resource, $count);
+    $chunk = fread($this->resource, $count);
+    $this->position += strlen($chunk);
+    return $chunk;
   }
 
   /**
@@ -99,7 +117,21 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */
   public function stream_seek($offset, $whence = SEEK_SET)
   {
-    return 0 == fseek($this->resource, $offset, $whence);
+    switch($whence)
+    {
+      case SEEK_SET:
+        $this->position = $offset;
+        break;
+      case SEEK_CUR:
+        $this->position += $offset;
+        break;
+      case SEEK_END:
+        $this->position = $this->filesize + $offset;
+        break;
+    }
+    $this->position = min($this->filesize, $this->position);
+    $this->position = max(0, $this->position);
+    return true;
   }
 
   /** 
@@ -115,7 +147,24 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */
   public function stream_stat()
   {
-    return fstat($this->resource);
+    $stat = array();
+    $stat['dev'] = 0;
+    $stat['ino'] = 0;
+    $stat['mode'] = 0777;
+    $stat['nlink'] = 0;
+    $stat['uid'] = 0;
+    $stat['gid'] = 0;
+    $stat['rdev'] = 0;
+    $stat['size'] = 0;
+    $stat['atime'] = 0;
+    $stat['mtime'] = 0;
+    $stat['ctime'] = 0;
+    $stat['blksize'] = 0;
+    $stat['blocks'] = 0;
+    $stat['size'] = $this->filesize;
+    $stat['atime'] = time();
+    $stat['mode'] |= 0100000;
+    return $stat;
   }
 
   /** 
@@ -125,7 +174,7 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */ 
   public function stream_tell()
   {
-    return ftell($this->resource);
+    return $this->position;
   }
 
   /**
@@ -137,6 +186,8 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
    */
   public function url_stat($path , $flags)
   {
-    return stat($path);
+    $headers = get_headers($path, 1);
+    $this->filesize = $headers['Content-Length'];
+    return $this->stream_stat();
   }
 }
