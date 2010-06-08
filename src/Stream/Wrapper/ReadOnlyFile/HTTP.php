@@ -39,14 +39,14 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
    *
    * @var int
    */
-  protected $filesize = 0;
+  protected $filesize = 1;
 
   /**
    * file pointer position of remote resource
    *
    * @var int
    */
-  protected $position = -1; // set to 1 initially so eof is not true
+  protected $position = 0; // set to 1 initially so eof is not true
 
   /**
    * Close an resource
@@ -102,8 +102,8 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
   public function stream_read($count)
   {
     $chunk = fread($this->resource, $count);
-    $this->filesize += strlen($chunk);
-    $this->position = $this->filesize;
+    $this->position += strlen($chunk);
+    $this->filesize = $this->position;
     if(strlen($chunk) >= $count)
     {
       $this->filesize++;
@@ -132,11 +132,6 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
         $this->position = $this->filesize + $offset;
         break;
     }
-    if(0 < $this->filesize)
-    {
-      $this->position = min($this->filesize, $this->position);
-    }
-    $this->position = max(0, $this->position);
     return true;
   }
 
