@@ -77,7 +77,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
     $fh = fopen($this->url, 'r');
     $character = fgetc($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $character, 'fgetc — Gets character from file pointer');
-    $this->assertEquals('<', $character, 'fgetc — Gets character from file pointer');
+    $this->assertEquals('0', $character, 'fgetc — Gets character from file pointer');
     fclose($fh);
   }
 
@@ -94,7 +94,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
     $fh = fopen($this->url, 'r');
     $line = fgetss($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fgetss — Gets line from file pointer and strip HTML tags');
-    $this->assertEquals('', $line, 'fgetss — Gets line from file pointer and strip HTML tags');
+    $this->assertEquals('001 : 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'.PHP_EOL, $line, 'fgetss — Gets line from file pointer and strip HTML tags');
     fclose($fh);
   }
 
@@ -133,12 +133,9 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
   public function testFscanf()
   {
     $fh = fopen($this->url, 'r');
-    $info = fscanf($fh, '%s');
+    $info = fscanf($fh, '%3s : %s');
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $info, 'fscanf — Parses input from a file according to a format');
-    $this->assertEquals('<?php', $info[0], 'fscanf — Parses input from a file according to a format');
-    $info = fscanf($fh, '%03d : %s');
-    $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $info, 'fscanf — Parses input from a file according to a format');
-    $this->assertEquals('', $info[0], 'fscanf — Parses input from a file according to a format');
+    $this->assertEquals('001', $info[0], 'fscanf — Parses input from a file according to a format');
     fclose($fh);
   }
 

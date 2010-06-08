@@ -130,7 +130,10 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
         $this->position = $this->filesize + $offset;
         break;
     }
-    $this->position = min($this->filesize, $this->position);
+    if(0 < $this->filesize)
+    {
+      $this->position = min($this->filesize, $this->position);
+    }
     $this->position = max(0, $this->position);
     return true;
   }
@@ -151,7 +154,7 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
     $stat = array();
     $stat['dev'] = 0;
     $stat['ino'] = 0;
-    $stat['mode'] = 0777;
+    $stat['mode'] = 0444;
     $stat['nlink'] = 0;
     $stat['uid'] = 0;
     $stat['gid'] = 0;

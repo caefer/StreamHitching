@@ -45,7 +45,7 @@ class Stream_SourceFilter_Mock_Test extends PHPUnit_Framework_TestCase
 
   public function testEncode()
   {
-    $this->assertEquals(__FILE__, $this->getFilter()->encode(__FILE__));
+    $this->assertEquals('test://'.__FILE__, $this->getFilter()->encode(__FILE__));
   }
 
   public function testDecode()
