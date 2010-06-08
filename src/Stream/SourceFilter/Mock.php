@@ -48,6 +48,10 @@ class Stream_SourceFilter_Mock extends Stream_SourceFilter_Abstract
    */
   public function decode($url)
   {
+    if (isset($this->options['orig_protocol']) === false) {
+      $this->options['orig_protocol'] = '';
+    }
+
     return str_replace($this->options['protocol'].'://', $this->options['orig_protocol'].'://', $url);
   }
 }
