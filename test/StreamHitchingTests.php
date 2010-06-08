@@ -15,6 +15,7 @@ class StreamHitchingTests
     $suite->addTestSuite('Stream_Wrapper_Decorator_Analyzer_Test');
     $suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_PHPLocal_Test');
     $suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_PHPHTTP_Test');
+    $suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_PHPMock_Test');
     #$suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_Local_Test');
     #$suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_Mock_Test');
     #$suite->addTestSuite('Stream_Wrapper_ReadOnlyFile_HTTP_Test');

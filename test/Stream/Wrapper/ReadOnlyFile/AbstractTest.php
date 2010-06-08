@@ -116,7 +116,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
     $fh = fopen($this->url, 'r');
     ob_start();
     $size = fpassthru($fh);
-    ob_clean();
+    ob_end_clean();
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_INT, $size, 'fpassthru — Output all remaining data on a file pointer');
     fclose($fh);
   }

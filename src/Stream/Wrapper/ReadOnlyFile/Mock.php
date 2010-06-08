@@ -60,6 +60,7 @@ class Stream_Wrapper_ReadOnlyFile_Mock implements Stream_Wrapper_ReadOnlyFile_In
 
   public function stream_read($count)
   {
+    if(self::$calls[__FUNCTION__]) return false;
     self::$calls[__FUNCTION__] = true;
     return $this->content;
   }
