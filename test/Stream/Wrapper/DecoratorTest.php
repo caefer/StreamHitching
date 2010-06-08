@@ -56,6 +56,9 @@ class Stream_Wrapper_Decorator_Test extends PHPUnit_Framework_TestCase
 
   protected function setUp()
   {
+    if (in_array('test', stream_get_wrappers()) === true) {
+      stream_wrapper_unregister('test');
+    }
     $sourceFilter = new Stream_SourceFilter_Mock(array(
       'protocol' => 'test',
       'wrapper_class' => 'Stream_Wrapper_ReadOnlyFile_Mock'
