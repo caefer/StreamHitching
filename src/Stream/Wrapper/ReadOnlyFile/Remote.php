@@ -105,6 +105,7 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
   {
     $chunk = fread($this->resource, $count);
     $this->position += strlen($chunk);
+    #$this->filesize += strlen($chunk);
     return $chunk;
   }
 
@@ -187,7 +188,14 @@ class Stream_Wrapper_ReadOnlyFile_Remote implements Stream_Wrapper_ReadOnlyFile_
   public function url_stat($path , $flags)
   {
     $headers = get_headers($path, 1);
-    $this->filesize = $headers['Content-Length'];
+    if(array_key_exists('Content-Length', $headers))
+    {
+      $this->filesize = $headers['Content-Length'];
+    }
+    else
+    {
+      $this->filesize = -1;
+    }
     return $this->stream_stat();
   }
 }
