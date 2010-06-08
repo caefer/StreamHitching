@@ -75,7 +75,7 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
    */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
-    if('r' != $mode)
+    if(!in_array($mode, array('r', 'rb')))
     {
       return false; // This is a read only file stream wrapper , remember?
     }
@@ -120,7 +120,10 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
    */
   public function stream_stat()
   {
-    return fstat($this->resource);
+    $stat = fstat($this->resource);
+    // make it appear readonly!
+    $stat['mode'] = $stat['mode'] & ~ 0222;
+    return $stat;
   }
 
   /** 
@@ -142,6 +145,9 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
    */
   public function url_stat($path , $flags)
   {
-    return stat($path);
+    $stat = stat($path);
+    // make it appear readonly!
+    $stat['mode'] = $stat['mode'] & ~ 0222;
+    return $stat;
   }
 }
