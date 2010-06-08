@@ -27,6 +27,7 @@ require_once 'PHPUnit/Framework.php';
  */
 class Stream_SourceFilter_Mock_Test extends PHPUnit_Framework_TestCase
 {
+  protected $filter = null;
   /**
    * @expectedException Exception
    */
