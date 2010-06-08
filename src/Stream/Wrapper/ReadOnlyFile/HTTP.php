@@ -46,7 +46,7 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
    *
    * @var int
    */
-  protected $position = 1; // set to 1 initially so eof is not true
+  protected $position = -1; // set to 1 initially so eof is not true
 
   /**
    * Close an resource
@@ -90,8 +90,6 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
   public function stream_open($path, $mode, $options, &$opened_path)
   {
     $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
-    #$headers = get_headers($path, 1);
-    #$this->filesize = $headers['Content-Length'];
     return false !== $this->resource;
   }
 
@@ -104,8 +102,12 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
   public function stream_read($count)
   {
     $chunk = fread($this->resource, $count);
-    $this->position += strlen($chunk);
-    #$this->filesize += strlen($chunk);
+    $this->filesize += strlen($chunk);
+    $this->position = $this->filesize;
+    if(strlen($chunk) >= $count)
+    {
+      $this->filesize++;
+    }
     return $chunk;
   }
 
