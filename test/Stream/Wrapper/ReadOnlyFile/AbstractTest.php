@@ -145,6 +145,10 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
     rewind($fh);
     $this->assertEquals(0, fseek($fh, 313, SEEK_SET), 'fseek — Seeks on a file pointer');
     $this->assertEquals(313, ftell($fh), 'fseek — Seeks on a file pointer');
+    $this->assertEquals(0, fseek($fh, 42, SEEK_CUR), 'fseek — Seeks on a file pointer');
+    $this->assertEquals(355, ftell($fh), 'fseek — Seeks on a file pointer');
+    $this->assertEquals(0, fseek($fh, 0, SEEK_END), 'fseek — Seeks on a file pointer');
+    $this->assertEquals(10100, ftell($fh), 'fseek — Seeks on a file pointer');
     fclose($fh);
   }
 

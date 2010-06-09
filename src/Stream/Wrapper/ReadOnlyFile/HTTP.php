@@ -42,6 +42,13 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
   protected $filesize = 1;
 
   /**
+   * file size of remote resource
+   *
+   * @var int
+   */
+  protected $filesize_detected = false;
+
+  /**
    * file pointer position of remote resource
    *
    * @var int
@@ -102,11 +109,15 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
   public function stream_read($count)
   {
     $chunk = fread($this->resource, $count);
-    $this->position += strlen($chunk);
+    $this->position = ftell($this->resource);
     $this->filesize = $this->position;
     if(strlen($chunk) >= $count)
     {
       $this->filesize++;
+    }
+    else
+    {
+      $this->filesize_detected = true;
     }
     return $chunk;
   }
@@ -129,6 +140,10 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
         $this->position += $offset;
         break;
       case SEEK_END:
+        while(!$this->filesize_detected)
+        {
+          $this->stream_read(8192);
+        }
         $this->position = $this->filesize + $offset;
         break;
     }
@@ -187,15 +202,12 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
    */
   public function url_stat($path , $flags)
   {
-    $headers = get_headers($path, 1);
-    if(array_key_exists('Content-Length', $headers))
+    $fh = fopen($path, 'r');
+    while(!feof($fh))
     {
-      $this->filesize = $headers['Content-Length'];
+      fread($fh, 8192);
     }
-    else
-    {
-      $this->filesize = -1;
-    }
+    $this->filesize = ftell($fh);
     return $this->stream_stat();
   }
 }
