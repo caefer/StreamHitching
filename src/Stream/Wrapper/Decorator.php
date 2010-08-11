@@ -24,6 +24,13 @@
 class Stream_Wrapper_Decorator
 {
   /**
+   * resource context
+   *
+   * @var resource
+   */
+  public $context;
+
+  /**
    * @var Stream_Wrapper_ReadOnlyFile_Interface $wrapper
    */
   private $wrapper;
@@ -72,6 +79,11 @@ class Stream_Wrapper_Decorator
     {
       $className = self::$filter->getOption('wrapper_class');
       $this->wrapper = new $className();
+    }
+
+    if(isset($this->context))
+    {
+      $this->wrapper->context = $this->context;
     }
   }
 

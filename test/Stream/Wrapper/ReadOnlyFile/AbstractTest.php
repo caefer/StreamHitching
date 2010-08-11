@@ -61,20 +61,20 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFclose()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $this->assertTrue(fclose($fh), 'fclose — Closes an open file pointer');
   }
 
   public function testFeof()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $this->assertFalse(feof($fh), 'feof — Tests for end-of-file on a file pointer');
     fclose($fh);
   }
 
   public function testFgetc()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $character = fgetc($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $character, 'fgetc — Gets character from file pointer');
     $this->assertEquals('0', $character, 'fgetc — Gets character from file pointer');
@@ -83,7 +83,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFgets()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $line = fgets($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fgets — Gets line from file pointer');
     fclose($fh);
@@ -91,7 +91,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFgetss()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $line = fgetss($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fgetss — Gets line from file pointer and strip HTML tags');
     $this->assertEquals('001 : 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000', trim($line), 'fgetss — Gets line from file pointer and strip HTML tags');
@@ -106,14 +106,14 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFopen()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $this->assertFalse(false === $fh, 'fopen — Opens file or URL');
     fclose($fh);
   }
 
   public function testFpassthru()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     ob_start();
     $size = fpassthru($fh);
     ob_end_clean();
@@ -123,7 +123,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFread()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $line = fread($fh, 10);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_STRING, $line, 'fread — Binary-safe file read');
     $this->assertEquals(10, strlen($line), 'fread — Binary-safe file read');
@@ -132,7 +132,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFscanf()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $info = fscanf($fh, '%3s : %s');
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $info, 'fscanf — Parses input from a file according to a format');
     $this->assertEquals('001', $info[0], 'fscanf — Parses input from a file according to a format');
@@ -141,7 +141,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFseek()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     rewind($fh);
     $this->assertEquals(0, fseek($fh, 313, SEEK_SET), 'fseek — Seeks on a file pointer');
     $this->assertEquals(313, ftell($fh), 'fseek — Seeks on a file pointer');
@@ -154,7 +154,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFtell()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     rewind($fh);
     $this->assertEquals(0, ftell($fh), 'ftell — Returns the current position of the file read/write pointer');
     fseek($fh, 313, SEEK_SET);
@@ -164,7 +164,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testRewind()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     rewind($fh);
     $this->assertFalse(feof($fh), 'rewind — Rewind the position of a file pointer');
     $this->assertEquals(0, ftell($fh), 'rewind — Rewind the position of a file pointer');
@@ -240,7 +240,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
 
   public function testFstat()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $stat = fstat($fh);
     $this->assertType(PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY, $stat, 'fstat — Gets information about a file using an open file pointer');
     $this->assertTrue(array_key_exists('dev', $stat), 'fstat — Gets information about a file using an open file pointer');
@@ -325,7 +325,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
    */
   public function testFflush()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     rewind($fh);
     fwrite($fh, 'Foo');
     $this->assertFalse(fflush($fh), 'fflush — Flushes the output to a file');
@@ -361,7 +361,7 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
    */
   public function testFlock()
   {
-    $fh = fopen($this->url, 'r');
+    $fh = $this->openFile();
     $this->assertFalse(flock($fh, LOCK_SH), 'flock — Portable advisory file locking');
     fclose($fh);
   }
@@ -372,6 +372,11 @@ abstract class Stream_Wrapper_ReadOnlyFile_Abstract_Test extends PHPUnit_Framewo
   public function testFile_put_contents()
   {
     $this->assertFalse(file_put_contents($this->url, 'Foo'), 'file_put_contents — Write a string to a file');
+  }
+
+  protected function openFile()
+  {
+    return fopen($this->url, 'r');
   }
 }
 

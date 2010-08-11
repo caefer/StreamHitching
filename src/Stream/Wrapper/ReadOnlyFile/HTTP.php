@@ -96,7 +96,15 @@ class Stream_Wrapper_ReadOnlyFile_HTTP implements Stream_Wrapper_ReadOnlyFile_In
    */
   public function stream_open($path, $mode, $options, &$opened_path)
   {
-    $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
+    if(isset($this->context))
+    {
+      $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH, $this->context);
+    }
+    else
+    {
+      $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
+    }
+
     return false !== $this->resource;
   }
 

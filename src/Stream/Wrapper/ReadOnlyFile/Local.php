@@ -80,7 +80,15 @@ class Stream_Wrapper_ReadOnlyFile_Local implements Stream_Wrapper_ReadOnlyFile_I
       return false; // This is a read only file stream wrapper , remember?
     }
 
-    $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
+    if(isset($this->context))
+    {
+      $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH, $this->context);
+    }
+    else
+    {
+      $this->resource = fopen($path, $mode, $options & STREAM_USE_PATH);
+    }
+
     return false !== $this->resource;
   }
 
