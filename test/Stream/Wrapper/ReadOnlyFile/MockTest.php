@@ -29,7 +29,7 @@ class Stream_Wrapper_ReadOnlyFile_Mock_Test extends PHPUnit_Framework_TestCase
   public function testStream_eof()
   {
     $this->assertFalse($this->wrapper->stream_eof());
-    $this->wrapper->stream_seek(10000, SEEK_SET);
+    $this->wrapper->stream_seek(20000, SEEK_SET);
     $this->assertTrue($this->wrapper->stream_eof());
     $this->assertTrue(Stream_Wrapper_ReadOnlyFile_Mock::wasCalled('stream_eof'));
   }
@@ -42,20 +42,21 @@ class Stream_Wrapper_ReadOnlyFile_Mock_Test extends PHPUnit_Framework_TestCase
 
   public function testStream_open()
   {
-    $this->assertTrue($this->wrapper->stream_open('test://url', 'r'));
+    $opendDir = "";
+    $this->assertTrue($this->wrapper->stream_open('test://url', 'r', $opendDir));
     $this->assertTrue(Stream_Wrapper_ReadOnlyFile_Mock::wasCalled('stream_open'));
   }
 
   public function testStream_read()
   {
-    $this->assertEquals('mocked', $this->wrapper->stream_read(8192));
+    $this->assertEquals($this->wrapper->content, $this->wrapper->stream_read(20000));
     $this->assertTrue(Stream_Wrapper_ReadOnlyFile_Mock::wasCalled('stream_read'));
   }
 
   public function testStream_seek()
   {
     $this->assertTrue($this->wrapper->stream_seek(10000, SEEK_SET));
-    $this->assertEquals(6, $this->wrapper->stream_tell());
+    $this->assertEquals(10000, $this->wrapper->stream_tell());
     $this->assertTrue($this->wrapper->stream_seek(3, SEEK_SET));
     $this->assertEquals(3, $this->wrapper->stream_tell());
     $this->assertTrue($this->wrapper->stream_seek(2, SEEK_CUR));
@@ -69,7 +70,7 @@ class Stream_Wrapper_ReadOnlyFile_Mock_Test extends PHPUnit_Framework_TestCase
   {
     $stat = $this->wrapper->stream_stat();
     $this->assertArrayHasKey('mode', $stat);
-    $this->assertEquals(0555, $stat['mode']);
+    $this->assertEquals(33060, $stat['mode']);
     $this->assertArrayHasKey('size', $stat);
     $this->assertEquals(6, $stat['size']);
     $this->assertTrue(Stream_Wrapper_ReadOnlyFile_Mock::wasCalled('stream_stat'));
@@ -84,7 +85,7 @@ class Stream_Wrapper_ReadOnlyFile_Mock_Test extends PHPUnit_Framework_TestCase
 
   public function testUrl_stat()
   {
-    $stat = $this->wrapper->url_stat();
+    $stat = $this->wrapper->url_stat(__FILE__, 0);
     $this->assertArrayHasKey('mode', $stat);
     $this->assertEquals(0555, $stat['mode']);
     $this->assertArrayHasKey('size', $stat);
