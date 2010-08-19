@@ -11,13 +11,6 @@
  * @version    SVN: $Id: $
  */
 
-/** require sources related to stream sourcefilter */
-require_once dirname(__FILE__).'/../../../src/Stream/SourceFilter/Interface.php';
-require_once dirname(__FILE__).'/../../../src/Stream/SourceFilter/Abstract.php';
-require_once dirname(__FILE__).'/../../../src/Stream/SourceFilter/Mock.php';
-/** PHPUnit Framework */
-require_once 'PHPUnit/Framework.php';
-
 /**
  * Mock Stream_SourceFilter implementation
  *

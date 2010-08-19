@@ -11,12 +11,6 @@
  * @version    SVN: $Id: $
  */
 
-/** PHPUnit Framework */
-require_once 'PHPUnit/Framework.php';
-/** class autoloading if necessary */
-require_once dirname(__FILE__).'/../../../bootstrap.php';
-
-
 /**
  * Stream wrapper for read only access of a local file.
  *

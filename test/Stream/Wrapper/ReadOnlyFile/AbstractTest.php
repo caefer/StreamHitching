@@ -11,11 +11,6 @@
  * @version    SVN: $Id: $
  */
 
-/** PHPUnit Framework */
-require_once 'PHPUnit/Framework.php';
-/** class autoloading if necessary */
-require_once dirname(__FILE__).'/../../../bootstrap.php';
-
 /**
  * This abstract test class includes most calls to PHPs filesystem functions.
  * All of these tests are expected to pass for StreamHitching streams and therefor are

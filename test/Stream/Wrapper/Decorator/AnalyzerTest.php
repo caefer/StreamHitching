@@ -11,19 +11,6 @@
  * @version    SVN: $Id: $
  */
 
-/** require sources related to stream wrapper decorator */
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/Decorator.php';
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/Decorator/Analyzer.php';
-/** require sources related to stream wrapper */
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Interface.php';
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Mock.php';
-/** require sources related to stream sourcefilter */
-require_once dirname(__FILE__).'/../../../../src/Stream/SourceFilter/Interface.php';
-require_once dirname(__FILE__).'/../../../../src/Stream/SourceFilter/Abstract.php';
-require_once dirname(__FILE__).'/../../../../src/Stream/SourceFilter/Mock.php';
-/** PHPUnit Framework */
-require_once 'PHPUnit/Framework.php';
-
 /**
  * A Stream_Wrapper_Decorator can be registered as a stream.
  * It uses the decorator pattern to forward calls to the stream wrapper

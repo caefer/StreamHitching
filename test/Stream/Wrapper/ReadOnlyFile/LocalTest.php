@@ -11,12 +11,6 @@
  * @version    SVN: $Id: $
  */
 
-/** require sources related to stream wrapper */
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Interface.php';
-require_once dirname(__FILE__).'/../../../../src/Stream/Wrapper/ReadOnlyFile/Local.php';
-/** PHPUnit Framework */
-require_once 'PHPUnit/Framework.php';
-
 /**
  * Stream wrapper for read only access of a local file.
  *
