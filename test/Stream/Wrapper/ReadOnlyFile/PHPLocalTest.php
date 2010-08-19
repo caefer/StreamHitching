@@ -33,8 +33,6 @@ class Stream_Wrapper_ReadOnlyFile_PHPLocal_Test extends Stream_Wrapper_ReadOnlyF
 
   protected function setUp()
   {
-    ini_set('display_errors',1);
-    error_reporting(E_ALL|E_STRICT);
     if(in_array('moo', stream_get_wrappers()))
     {
       stream_wrapper_unregister('moo');
