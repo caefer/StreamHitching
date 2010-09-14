@@ -52,7 +52,7 @@ class Stream_Wrapper_Decorator
       throw new Exception(get_class($this->wrapper).' does not implement '.$method.'()!');
     }
 
-    $this->filter(&$arguments);
+    $arguments = $this->filter($arguments);
     return call_user_func_array(array($this->wrapper, $method), $arguments);
   }
 
@@ -68,6 +68,8 @@ class Stream_Wrapper_Decorator
         $arguments[$key] = self::$filter->decode($value);
       }
     }
+
+    return $arguments;
   }
 
   /**
